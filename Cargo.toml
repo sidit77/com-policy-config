@@ -2,10 +2,14 @@
 name = "com-policy-config"
 version = "0.1.0"
 edition = "2021"
+authors = ["sidit77"]
 license = "MIT"
 description = "Rust bindings to IPolicyConfig COM API"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+repository = "https://github.com/sidit77/com-policy-config"
+documentation = "https://docs.rs/com-policy-config"
+readme = "README.md"
+keywords = ["Windows", "WinSDK", "Audio", "COM"]
+categories = ["api-bindings", "os::windows-apis"]
 
 [dependencies.windows]
 version = "0.44.0"
@@ -22,3 +26,7 @@ version = "0.44.0"
 features = [
     "Win32_Devices_FunctionDiscovery",
 ]
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-pc-windows-msvc", "i686-pc-windows-msvc"]
