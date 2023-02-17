@@ -55,13 +55,13 @@ impl IPolicyConfig {
         (Vtable::vtable(self).SetShareMode)(Vtable::as_raw(self), device_name.into().abi(), &mut mode).ok()
     }
 
-    pub unsafe fn GetPropertyValue(&self, device_name: impl Into<InParam<PCWSTR>>, key: *const PROPERTYKEY) -> Result<PROPVARIANT> {
+    pub unsafe fn GetPropertyValue(&self, device_name: impl Into<InParam<PCWSTR>>, bFxStore: impl Into<BOOL>, key: *const PROPERTYKEY) -> Result<PROPVARIANT> {
         let mut result__ = ::core::mem::MaybeUninit::zeroed();
-        (Vtable::vtable(self).GetPropertyValue)(Vtable::as_raw(self), device_name.into().abi(), key, result__.as_mut_ptr()).from_abi(result__)
+        (Vtable::vtable(self).GetPropertyValue)(Vtable::as_raw(self), device_name.into().abi(), bFxStore.into().0, key, result__.as_mut_ptr()).from_abi(result__)
     }
 
-    pub unsafe fn SetPropertyValue(&self, device_name: impl Into<InParam<PCWSTR>>, key: *const PROPERTYKEY, propvar: *mut PROPVARIANT) -> Result<()> {
-        (Vtable::vtable(self).SetPropertyValue)(Vtable::as_raw(self), device_name.into().abi(), key, propvar).ok()
+    pub unsafe fn SetPropertyValue(&self, device_name: impl Into<InParam<PCWSTR>>, bFxStore: impl Into<BOOL>, key: *const PROPERTYKEY, propvar: *mut PROPVARIANT) -> Result<()> {
+        (Vtable::vtable(self).SetPropertyValue)(Vtable::as_raw(self), device_name.into().abi(), bFxStore.into().0, key, propvar).ok()
     }
 
     pub unsafe fn SetDefaultEndpoint(&self, device_name: impl Into<InParam<PCWSTR>>, role: ERole) -> Result<()> {
@@ -91,8 +91,8 @@ pub struct IPolicyConfig_Vtbl {
     pub SetProcessingPeriod: unsafe extern "system" fn(this: *mut c_void, PCWSTR, *mut i64) -> HRESULT,
     pub GetShareMode: unsafe extern "system" fn(this: *mut c_void, PCWSTR, *mut DeviceSharingMode) -> HRESULT,
     pub SetShareMode: unsafe extern "system" fn(this: *mut c_void, PCWSTR, *mut DeviceSharingMode) -> HRESULT,
-    pub GetPropertyValue: unsafe extern "system" fn(this: *mut c_void, PCWSTR, *const PROPERTYKEY, *mut PROPVARIANT) -> HRESULT,
-    pub SetPropertyValue: unsafe extern "system" fn(this: *mut c_void, PCWSTR, *const PROPERTYKEY, *mut PROPVARIANT) -> HRESULT,
+    pub GetPropertyValue: unsafe extern "system" fn(this: *mut c_void, PCWSTR, i32, *const PROPERTYKEY, *mut PROPVARIANT) -> HRESULT,
+    pub SetPropertyValue: unsafe extern "system" fn(this: *mut c_void, PCWSTR, i32, *const PROPERTYKEY, *mut PROPVARIANT) -> HRESULT,
     pub SetDefaultEndpoint: unsafe extern "system" fn(this: *mut c_void, PCWSTR, ERole) -> HRESULT,
     pub SetEndpointVisibility: unsafe extern "system" fn(this: *mut c_void, PCWSTR, i32) -> HRESULT
 }
