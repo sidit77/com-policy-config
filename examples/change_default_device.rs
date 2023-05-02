@@ -27,10 +27,13 @@ fn main() -> Result<()>{
 
         let device_id = PCWSTR(selected_device.GetId()?.0);
         let policy_config: IPolicyConfig = CoCreateInstance(&PolicyConfigClient, None, CLSCTX_ALL)?;
-        policy_config.SetDefaultEndpoint(&device_id, eConsole)?;
+        policy_config.SetDefaultEndpoint(device_id, eConsole)?;
 
-        CoUninitialize();
+
     }
 
+    unsafe {
+        CoUninitialize();
+    }
     Ok(())
 }

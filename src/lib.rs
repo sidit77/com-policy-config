@@ -4,7 +4,7 @@
 #![allow(clippy::missing_safety_doc)]
 
 use std::ffi::c_void;
-use windows::core::{GUID, Interface, IUnknown, Vtable, Result, InParam, PCWSTR, HRESULT};
+use windows::core::{GUID, Interface, IUnknown, Result, PCWSTR, HRESULT, ComInterface, zeroed, IntoParam};
 use windows::Devices::Custom::DeviceSharingMode;
 use windows::interface_hierarchy;
 use windows::Win32::Foundation::BOOL;
@@ -20,63 +20,65 @@ pub struct IPolicyConfig(IUnknown);
 interface_hierarchy!(IPolicyConfig, IUnknown);
 
 impl IPolicyConfig {
-    pub unsafe fn GetMixFormat(&self, device_name: impl Into<InParam<PCWSTR>>) -> Result<*mut WAVEFORMATEX> {
-        let mut result__ = ::core::mem::MaybeUninit::zeroed();
-        (Vtable::vtable(self).GetMixFormat)(Vtable::as_raw(self), device_name.into().abi(), result__.as_mut_ptr()).from_abi(result__)
+    pub unsafe fn GetMixFormat(&self, device_name: impl IntoParam<PCWSTR>) -> Result<*mut WAVEFORMATEX> {
+        let mut result__ = zeroed::<*mut WAVEFORMATEX>();
+        (Interface::vtable(self).GetMixFormat)(Interface::as_raw(self), device_name.into_param().abi(), &mut result__).from_abi(result__)
     }
 
-    pub unsafe fn GetDeviceFormat(&self, device_name: impl Into<InParam<PCWSTR>>, default: impl Into<BOOL>) -> Result<*mut WAVEFORMATEX> {
-        let mut result__ = ::core::mem::MaybeUninit::zeroed();
-        (Vtable::vtable(self).GetDeviceFormat)(Vtable::as_raw(self), device_name.into().abi(), default.into().0, result__.as_mut_ptr()).from_abi(result__)
+    pub unsafe fn GetDeviceFormat(&self, device_name: impl IntoParam<PCWSTR>, default: impl Into<BOOL>) -> Result<*mut WAVEFORMATEX> {
+        let mut result__ = zeroed::<*mut WAVEFORMATEX>();
+        (Interface::vtable(self).GetDeviceFormat)(Interface::as_raw(self), device_name.into_param().abi(), default.into().0, &mut result__).from_abi(result__)
     }
 
-    pub unsafe fn ResetDeviceFormat(&self, device_name: impl Into<InParam<PCWSTR>>) -> Result<()> {
-        (Vtable::vtable(self).ResetDeviceFormat)(Vtable::as_raw(self), device_name.into().abi()).ok()
+    pub unsafe fn ResetDeviceFormat(&self, device_name: impl IntoParam<PCWSTR>) -> Result<()> {
+        (Interface::vtable(self).ResetDeviceFormat)(Interface::as_raw(self), device_name.into_param().abi()).ok()
     }
 
-    pub unsafe fn SetDeviceFormat(&self, device_name: impl Into<InParam<PCWSTR>>, mut endpoint_format: WAVEFORMATEX, mut mix_format: WAVEFORMATEX) -> Result<()> {
-        (Vtable::vtable(self).SetDeviceFormat)(Vtable::as_raw(self), device_name.into().abi(), &mut endpoint_format, &mut mix_format).ok()
+    pub unsafe fn SetDeviceFormat(&self, device_name: impl IntoParam<PCWSTR>, mut endpoint_format: WAVEFORMATEX, mut mix_format: WAVEFORMATEX) -> Result<()> {
+        (Interface::vtable(self).SetDeviceFormat)(Interface::as_raw(self), device_name.into_param().abi(), &mut endpoint_format, &mut mix_format).ok()
     }
 
-    pub unsafe fn GetProcessingPeriod(&self, device_name: impl Into<InParam<PCWSTR>>, default: impl Into<BOOL>, default_period: *mut i64, min_period: *mut i64) -> Result<()> {
-        (Vtable::vtable(self).GetProcessingPeriod)(Vtable::as_raw(self), device_name.into().abi(), default.into().0, default_period, min_period).ok()
+    pub unsafe fn GetProcessingPeriod(&self, device_name: impl IntoParam<PCWSTR>, default: impl Into<BOOL>, default_period: *mut i64, min_period: *mut i64) -> Result<()> {
+        (Interface::vtable(self).GetProcessingPeriod)(Interface::as_raw(self), device_name.into_param().abi(), default.into().0, default_period, min_period).ok()
     }
 
-    pub unsafe fn SetProcessingPeriod(&self, device_name: impl Into<InParam<PCWSTR>>, period: *mut i64) -> Result<()> {
-        (Vtable::vtable(self).SetProcessingPeriod)(Vtable::as_raw(self), device_name.into().abi(), period).ok()
+    pub unsafe fn SetProcessingPeriod(&self, device_name: impl IntoParam<PCWSTR>, period: *mut i64) -> Result<()> {
+        (Interface::vtable(self).SetProcessingPeriod)(Interface::as_raw(self), device_name.into_param().abi(), period).ok()
     }
 
-    pub unsafe fn GetShareMode(&self, device_name: impl Into<InParam<PCWSTR>>) -> Result<DeviceSharingMode> {
-        let mut result__ = ::core::mem::MaybeUninit::zeroed();
-        (Vtable::vtable(self).GetShareMode)(Vtable::as_raw(self), device_name.into().abi(), result__.as_mut_ptr()).from_abi(result__)
+    pub unsafe fn GetShareMode(&self, device_name: impl IntoParam<PCWSTR>) -> Result<DeviceSharingMode> {
+        let mut result__ = zeroed::<DeviceSharingMode>();
+        (Interface::vtable(self).GetShareMode)(Interface::as_raw(self), device_name.into_param().abi(), &mut result__).from_abi(result__)
     }
 
-    pub unsafe fn SetShareMode(&self, device_name: impl Into<InParam<PCWSTR>>, mut mode: DeviceSharingMode) -> Result<()> {
-        (Vtable::vtable(self).SetShareMode)(Vtable::as_raw(self), device_name.into().abi(), &mut mode).ok()
+    pub unsafe fn SetShareMode(&self, device_name: impl IntoParam<PCWSTR>, mut mode: DeviceSharingMode) -> Result<()> {
+        (Interface::vtable(self).SetShareMode)(Interface::as_raw(self), device_name.into_param().abi(), &mut mode).ok()
     }
 
-    pub unsafe fn GetPropertyValue(&self, device_name: impl Into<InParam<PCWSTR>>, bFxStore: impl Into<BOOL>, key: *const PROPERTYKEY) -> Result<PROPVARIANT> {
-        let mut result__ = ::core::mem::MaybeUninit::zeroed();
-        (Vtable::vtable(self).GetPropertyValue)(Vtable::as_raw(self), device_name.into().abi(), bFxStore.into().0, key, result__.as_mut_ptr()).from_abi(result__)
+    pub unsafe fn GetPropertyValue(&self, device_name: impl IntoParam<PCWSTR>, bFxStore: impl Into<BOOL>, key: *const PROPERTYKEY) -> Result<PROPVARIANT> {
+        let mut result__ = zeroed::<PROPVARIANT>();
+        (Interface::vtable(self).GetPropertyValue)(Interface::as_raw(self), device_name.into_param().abi(), bFxStore.into().0, key, &mut result__).from_abi(result__)
     }
 
-    pub unsafe fn SetPropertyValue(&self, device_name: impl Into<InParam<PCWSTR>>, bFxStore: impl Into<BOOL>, key: *const PROPERTYKEY, propvar: *mut PROPVARIANT) -> Result<()> {
-        (Vtable::vtable(self).SetPropertyValue)(Vtable::as_raw(self), device_name.into().abi(), bFxStore.into().0, key, propvar).ok()
+    pub unsafe fn SetPropertyValue(&self, device_name: impl IntoParam<PCWSTR>, bFxStore: impl Into<BOOL>, key: *const PROPERTYKEY, propvar: *mut PROPVARIANT) -> Result<()> {
+        (Interface::vtable(self).SetPropertyValue)(Interface::as_raw(self), device_name.into_param().abi(), bFxStore.into().0, key, propvar).ok()
     }
 
-    pub unsafe fn SetDefaultEndpoint(&self, device_name: impl Into<InParam<PCWSTR>>, role: ERole) -> Result<()> {
-        (Vtable::vtable(self).SetDefaultEndpoint)(Vtable::as_raw(self), device_name.into().abi(), role).ok()
+    pub unsafe fn SetDefaultEndpoint(&self, device_name: impl IntoParam<PCWSTR>, role: ERole) -> Result<()> {
+        (Interface::vtable(self).SetDefaultEndpoint)(Interface::as_raw(self), device_name.into_param().abi(), role).ok()
     }
 
-    pub unsafe fn SetEndpointVisibility(&self, device_name: impl Into<InParam<PCWSTR>>, visible: impl Into<BOOL>) -> Result<()> {
-        (Vtable::vtable(self).SetEndpointVisibility)(Vtable::as_raw(self), device_name.into().abi(), visible.into().0).ok()
+    pub unsafe fn SetEndpointVisibility(&self, device_name: impl IntoParam<PCWSTR>, visible: impl Into<BOOL>) -> Result<()> {
+        (Interface::vtable(self).SetEndpointVisibility)(Interface::as_raw(self), device_name.into_param().abi(), visible.into().0).ok()
     }
 }
 
-unsafe impl Vtable for IPolicyConfig { type Vtable = IPolicyConfig_Vtbl; }
+unsafe impl ComInterface for IPolicyConfig {
+    const IID: GUID = GUID::from_u128(0xf8679f50_850a_41cf_9c72_430f290290c8);
+}
 
 unsafe impl Interface for IPolicyConfig {
-    const IID: GUID = GUID::from_u128(0xf8679f50_850a_41cf_9c72_430f290290c8);
+    type Vtable = IPolicyConfig_Vtbl;
 }
 
 #[repr(C)]

@@ -12,7 +12,7 @@ keywords = ["Windows", "WinSDK", "Audio", "COM"]
 categories = ["api-bindings", "os::windows-apis"]
 
 [dependencies.windows]
-version = "0.44.0"
+version = "0.48"
 features = [
     "Win32_Foundation",
     "Win32_Media_Audio",
@@ -22,7 +22,7 @@ features = [
 ]
 
 [dev-dependencies.windows]
-version = "0.44.0"
+version = "0.48"
 features = [
     "Win32_Devices_FunctionDiscovery",
 ]
