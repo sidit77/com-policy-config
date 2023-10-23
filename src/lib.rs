@@ -4,9 +4,9 @@
 #![allow(clippy::missing_safety_doc)]
 
 use std::ffi::c_void;
-use windows::core::{GUID, Interface, IUnknown, Result, PCWSTR, HRESULT, ComInterface, zeroed, IntoParam};
+use std::mem::zeroed;
+use windows::core::{GUID, Interface, IUnknown, Result, PCWSTR, HRESULT, ComInterface, IntoParam, CanInto};
 use windows::Devices::Custom::DeviceSharingMode;
-use windows::interface_hierarchy;
 use windows::Win32::Foundation::BOOL;
 use windows::Win32::Media::Audio::{ERole, WAVEFORMATEX};
 use windows::Win32::System::Com::StructuredStorage::PROPVARIANT;
@@ -17,7 +17,8 @@ pub const PolicyConfigClient: GUID = GUID::from_u128(0x870af99c_171d_4f9e_af0d_e
 #[repr(transparent)]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct IPolicyConfig(IUnknown);
-interface_hierarchy!(IPolicyConfig, IUnknown);
+
+impl CanInto<IUnknown> for IPolicyConfig {}
 
 impl IPolicyConfig {
     pub unsafe fn GetMixFormat(&self, device_name: impl IntoParam<PCWSTR>) -> Result<*mut WAVEFORMATEX> {
