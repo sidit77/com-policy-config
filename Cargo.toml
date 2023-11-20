@@ -1,6 +1,6 @@
 [package]
 name = "com-policy-config"
-version = "0.4.0"
+version = "0.5.0"
 edition = "2021"
 authors = ["sidit77"]
 license = "MIT"
@@ -12,7 +12,7 @@ keywords = ["Windows", "WinSDK", "Audio", "COM"]
 categories = ["api-bindings", "os::windows-apis"]
 
 [dependencies.windows]
-version = "0.51"
+version = "0.52"
 features = [
     "Win32_Foundation",
     "Win32_Media_Audio",
@@ -23,7 +23,7 @@ features = [
 ]
 
 [dev-dependencies.windows]
-version = "0.51"
+version = "0.52"
 features = [
     "Win32_Devices_FunctionDiscovery",
 ]
