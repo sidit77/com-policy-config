@@ -12,21 +12,19 @@ keywords = ["Windows", "WinSDK", "Audio", "COM"]
 categories = ["api-bindings", "os::windows-apis"]
 
 [dependencies.windows]
-version = "0.52"
+version = "0.61"
 features = [
     "Win32_Foundation",
     "Win32_Media_Audio",
     "Win32_UI_Shell_PropertiesSystem",
     "Win32_System_Com_StructuredStorage",
     "Win32_System_Variant",
-    "Devices_Custom"
+    "Devices_Custom",
 ]
 
 [dev-dependencies.windows]
-version = "0.52"
-features = [
-    "Win32_Devices_FunctionDiscovery",
-]
+version = "0.61"
+features = ["Win32_Devices_FunctionDiscovery"]
 
 [package.metadata.docs.rs]
 all-features = true
